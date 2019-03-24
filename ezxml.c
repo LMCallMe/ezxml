@@ -946,7 +946,8 @@ ezxml_t ezxml_set_attr(ezxml_t xml, const char *name, const char *value)
     if (value) xml->attr[l + 1] = (char *)value; // set attribute value
     else { // remove attribute
         if (xml->attr[c + 1][l / 2] & EZXML_NAMEM) free(xml->attr[l]);
-        memmove(xml->attr + l, xml->attr + l + 2, (c - l + 2) * sizeof(char*));
+        memmove(xml->attr + l, xml->attr + l + 2, (c - l) * sizeof(char*));
+        c-=2;
         xml->attr = realloc(xml->attr, (c + 2) * sizeof(char *));
         memmove(xml->attr[c + 1] + (l / 2), xml->attr[c + 1] + (l / 2) + 1,
                 (c / 2) - (l / 2)); // fix list of which name/vals are malloced
