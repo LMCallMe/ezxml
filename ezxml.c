@@ -953,10 +953,10 @@ ezxml_t ezxml_set_attr(ezxml_t xml, const char *name, const char *value)
     else { // remove attribute
         if (xml->attr[c + 1][l / 2] & EZXML_NAMEM) free(xml->attr[l]);
         memmove(xml->attr + l, xml->attr + l + 2, (c - l) * sizeof(char*));
-        c-=2;
         xml->attr = realloc(xml->attr, (c + 2) * sizeof(char *));
+        c-=2;
         memmove(xml->attr[c + 1] + (l / 2), xml->attr[c + 1] + (l / 2) + 1,
-                (c / 2) - (l / 2)); // fix list of which name/vals are malloced
+                ((c + 2) / 2) - (l / 2)); // fix list of which name/vals are malloced
     }
     xml->flags &= ~EZXML_DUP; // clear strdup() flag
     return xml;
